@@ -15,11 +15,20 @@
         Click on 'Close Day' to start a new day
       </span>
     </v-sheet>
+
+    <v-divider class="my-4"></v-divider>
+    <p class="display-1 font-weight-light"><strong>Balance:</strong> {{ funds }}</p>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  computed: {
+    funds() {
+      return this.$store.getters.funds;
+    },
+  },
+};
 </script>
 
 <style>
