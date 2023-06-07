@@ -15,13 +15,16 @@
           type="number"
           min="0"
           v-model.number="quantity"
+          :error="surpassTotalQty || !Number.isInteger(quantity)"
         ></v-text-field>
         <v-btn
           class="blue darken-4 white--text"
-          :disabled="quantity <= 0 || !Number.isInteger(quantity)"
+          :disabled="
+            surpassTotalQty || quantity <= 0 || !Number.isInteger(quantity)
+          "
           @click="sellStock"
         >
-          Sell
+          {{ surpassTotalQty ? "Exceeded" : "Sell" }}
         </v-btn>
       </v-container>
     </v-card>
@@ -37,6 +40,12 @@ export default {
     return {
       quantity: 0,
     };
+  },
+
+  computed: {
+    surpassTotalQty() {
+      return this.quantity > this.stock.quantity;
+    },
   },
 
   methods: {
