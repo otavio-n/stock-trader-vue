@@ -1,12 +1,23 @@
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, set } from "firebase/database";
+import { getDatabase, ref, set, child, get } from "firebase/database";
 import firebaseConfig from "../../firebase.config";
 
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
+const dbRef = ref(database, "stock/");
 
 function writeStockData(data) {
-  set(ref(database, "stock/"), data);
+  set(dbRef, data);
 }
 
-export { writeStockData };
+async function readStockData() {
+  let stockData = {};
+  await get(child(dbRef, `/`)).then((snapshot) => {
+    if (snapshot.exists()) {
+      stockData = snapshot.val();
+    }
+  });
+  return stockData;
+}
+
+export { writeStockData, readStockData };
