@@ -17,7 +17,7 @@
       <v-menu>
         <v-btn flat slot="activator">Save & Load</v-btn>
         <v-list>
-          <v-list-tile>
+          <v-list-tile @click="saveData">
             <v-list-tile-title>Save Data</v-list-tile-title>
           </v-list-tile>
           <v-list-tile>
@@ -36,6 +36,7 @@
 
 <script>
 import { mapActions } from "vuex";
+import { writeStockData } from "../plugins/firebase";
 export default {
   computed: {
     funds() {
@@ -47,6 +48,10 @@ export default {
     ...mapActions(["randomizeStocks"]),
     endDay() {
       this.randomizeStocks();
+    },
+    saveData() {
+      const { funds, stockPortfolio } = this.$store.getters;
+      writeStockData({ funds, stockPortfolio });
     },
   },
 };
