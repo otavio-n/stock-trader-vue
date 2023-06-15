@@ -20,7 +20,7 @@
           <v-list-tile @click="saveData">
             <v-list-tile-title>Save Data</v-list-tile-title>
           </v-list-tile>
-          <v-list-tile>
+          <v-list-tile @click="readData">
             <v-list-tile-title> Load Data</v-list-tile-title>
           </v-list-tile>
         </v-list>
@@ -36,7 +36,7 @@
 
 <script>
 import { mapActions } from "vuex";
-import { writeStockData } from "../plugins/firebase";
+import { writeStockData, readStockData } from "../plugins/firebase";
 export default {
   computed: {
     funds() {
@@ -45,13 +45,17 @@ export default {
   },
 
   methods: {
-    ...mapActions(["randomizeStocks"]),
+    ...mapActions(["randomizeStocks", "setPortfolio"]),
     endDay() {
       this.randomizeStocks();
     },
     saveData() {
       const { funds, stockPortfolio } = this.$store.getters;
       writeStockData({ funds, stockPortfolio });
+    },
+    async readData() {
+      const dbStockData = await readStockData();
+      this.setPortfolio(dbStockData);
     },
   },
 };
