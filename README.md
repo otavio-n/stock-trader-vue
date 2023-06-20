@@ -1,4 +1,5 @@
 # stock-trader
+[stocktrader-clip.webm](https://github.com/otavio-n/stock-trader-vue/assets/75041923/529abb77-8b2e-480b-bc62-428646667f4b)
 
 ## Project setup
 ```
